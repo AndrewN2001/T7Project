@@ -1,9 +1,11 @@
 import React from 'react';
 import "./App.css"
+import FlightForm from './components/Searchbar';
+
 function App() {
   return (
-    <div className='bg-red-400'>
-      Hello World!
+    <div class="">
+      <FlightForm/>
     </div>
   );
 }
