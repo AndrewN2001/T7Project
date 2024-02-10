@@ -4,7 +4,7 @@ import FlightForm from './components/Searchbar';
 
 function App() {
   return (
-    <div class="">
+    <div>
       <FlightForm/>
     </div>
   );
