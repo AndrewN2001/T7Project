@@ -1,9 +1,12 @@
 import React from 'react';
 import "./App.css"
+import Component from './Component';
+// import Header from './header';
 function App() {
   return (
-    <div className='bg-red-400'>
-      Hello World!
+    <div>
+      <Component/>
+
     </div>
   );
 }
