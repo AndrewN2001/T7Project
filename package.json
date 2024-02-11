@@ -2,6 +2,7 @@
   "dependencies": {
     "express": "^4.18.2"
   },
+  "proxy": "http://http://127.0.0.1:4000",
   "name": "t7project",
   "version": "1.0.0",
   "main": "index.js",
