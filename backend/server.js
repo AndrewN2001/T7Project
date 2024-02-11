@@ -7,7 +7,7 @@ const app = Express()
 
 const openAi = new OpenAI({
     // apiKey: process.env['OPENAI_API_KEY']
-    apiKey: "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"
+    apiKey: ""
 });
 
 app.use(cors())
