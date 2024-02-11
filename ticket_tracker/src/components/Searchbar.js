@@ -21,6 +21,7 @@ export default function FlightForm(){
             console.log(responseData)
             setData(responseData); // Setting data state with the extracted data
             console.log(responseData); // Logging the data for verification
+            //response data has one value, the final price. You can access this by doing responseData.finalCost
         } catch (error) {
             console.error("Error:", error);
         }
