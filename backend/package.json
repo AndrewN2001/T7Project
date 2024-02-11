@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "amadeus": "^9.1.0",
+    "dotenv": "^16.4.2",
+    "express": "^4.18.2",
     "openai": "^4.27.0"
   }
 }
