@@ -40,11 +40,13 @@ export default function FlightForm(){
                 {/* <div className={`pb-4 ${data != "" ? `visible` : `invisible`}`}>{`Total cost of the plane ticket: ${data.finalCost}`}</div> */}
             </div>  
 
-            <div className="rounded-md bg-slate-100 mt-4 p-2">
-                <h1 className="bg-white p-3 rounded-md text-xl">
-                    {data != "" ? `The best price for these dates is $${data.finalCost} round trip.` : null}
-                </h1>
-            </div>
+            {data != "" ? (
+                <div className="rounded-md bg-slate-100 mt-4 p-2">
+                    <h1 className="bg-white p-3 rounded-md text-xl border-2">
+                        {data != "" ? `The best price for these dates is $${data.finalCost} round trip.` : null}
+                    </h1>
+                </div>
+            ) : null}
      
         </div>
     )

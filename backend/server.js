@@ -6,8 +6,8 @@ import cors from "cors"
 const app = Express()
 
 const openAi = new OpenAI({
-    // apiKey: process.env['OPENAI_API_KEY']
-    apiKey: "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"
+    apiKey: process.env['OPENAI_API_KEY']
+    // apiKey: "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"
 });
 // const openAi = new OpenAI()
 
