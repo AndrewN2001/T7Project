@@ -1,13 +1,14 @@
+const openAi = require("openai")
 const express = require('express');
 const app = express();
 const Amadeus = require('amadeus');
+const Openai = require('openai')
 
 app.get('/api/data', (req, res) => {
     const amadeus = new Amadeus({
         clientId: 'AXkmtCwEPM2lA4RZQDZCYYXO6J9FJQ4C',
         clientSecret: 'hJHp768PNYDy3wmw'
     });
-    console.log(nums)
     amadeus.shopping.flightOffersSearch.get({
         originLocationCode: 'SYD',
         destinationLocationCode: 'BKK',
