@@ -117,7 +117,7 @@ app.post('/api/data', (req, res) => {
     }).then(function(response){
         // Send the response from Amadeus API back to the client
         res.json(response.data);
-    }).catch(function(responseError){
+    }).catch(function (responseError) {
         // Handle errors if any
         console.log(responseError.code);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -127,6 +127,7 @@ app.post('/api/data', (req, res) => {
 
 
 
-app.listen(4000, () =>{
+
+app.listen(4000, () => {
     console.log("Listening on port 4000");
 });
