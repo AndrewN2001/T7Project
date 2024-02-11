@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import Express from 'express';
+import Amadeus from 'amadeus';
 const app = Express()
 const openAi = new OpenAI()
 app.get('/api/chat', async (req, res) => {
