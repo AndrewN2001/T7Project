@@ -5,10 +5,11 @@ import Bodyparser from "body-parser"
 import cors from "cors"
 const app = Express()
 
-const openAi = new OpenAI({
-    // apiKey: process.env['OPENAI_API_KEY']
-    apiKey: ""
-});
+// const openAi = new OpenAI({
+//     // apiKey: process.env['OPENAI_API_KEY']
+//     apiKey: ""
+// });
+const openAi = new OpenAI()
 
 app.use(cors())
 app.use(Bodyparser.urlencoded({
@@ -61,7 +62,7 @@ app.post('/api/chat', async (req, res) => {
       });
       const date2 = await openAi.chat.completions.create({
         messages: [{ role: "system", content: `From this string give me only the return in this format Y-MM-DD, say absolutely nothing else:
-        ${req.body.key}, if the year is not given use ${currentDate.getFullYear()}, if the month is not use ${currentDate.getMonth() + 1}. If the day is between 1 and 9, write a 0 before it. Do this with the month as well. Write absolutely nothing else at all except for the except for the date of return in the format Y-MM-DD`}],
+        ${req.body.key}, if the year is not given use ${currentDate.getFullYear()}, if the month is not use ${currentDate.getMonth() + 1}. If the day is between 1 and 9, write a 0 before it. Do this with the month as well. Write absolutely nothing else at all except for the except for the date of return in the format Y-MM-DD, if there is no date of return write -1 nothing else`}],
         model: "gpt-3.5-turbo",
       });
       console.log(date.choices[0].message.content, date2.choices[0].message.content)
@@ -86,8 +87,8 @@ app.post('/api/chat', async (req, res) => {
     const finalData = await airportData.json()
     // console.log(finalData[0].price.grandTotal)
     console.log(finalData.slice(0, 5));
-    // res.status(200).json({totalCost: finalData[0].price.grandTotal})
-    res.status(200).json({totalCost: finalData.slice(0, 5)});
+    res.status(200).json({totalCost: finalData[0].price.grandTotal})
+    //res.status(200).json({totalCost: finalData.slice(0, 5)});
 })
 
 app.post('/api/getCityCodes', async (req, res) => {
@@ -123,7 +124,7 @@ app.post('/api/data', (req, res) => {
         clientSecret: 'hJHp768PNYDy3wmw'
     });
     console.log(req.body.originLocationCode, req.body.destinationLocationCode, req.body.dateDeparture)
-    amadeus.shopping.flightOffersSearch.get({
+    if(req.body.returnDate != "-1"){amadeus.shopping.flightOffersSearch.get({
         originLocationCode: req.body.originLocationCode,
         destinationLocationCode: req.body.destinationLocationCode,
         departureDate: req.body.dateDeparture,
@@ -136,7 +137,22 @@ app.post('/api/data', (req, res) => {
         // Handle errors if any
         console.log(responseError.code);
         res.status(500).json({ error: 'Internal Server Error' });
-    });
+    });}
+    else {
+        amadeus.shopping.flightOffersSearch.get({
+            originLocationCode: req.body.originLocationCode,
+            destinationLocationCode: req.body.destinationLocationCode,
+            departureDate: req.body.dateDeparture,
+            adults: '1'
+        }).then(function(response){
+            // Send the response from Amadeus API back to the client
+            res.json(response.data);
+        }).catch(function (responseError) {
+            // Handle errors if any
+            console.log(responseError.code);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+    }
 });
 
 
