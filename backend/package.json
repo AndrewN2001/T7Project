@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "amadeus": "^9.1.0"
+    "amadeus": "^9.1.0",
+    "openai": "^4.27.0"
   }
 }
