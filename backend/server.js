@@ -4,12 +4,17 @@ import Amadeus from 'amadeus';
 import Bodyparser from "body-parser"
 import cors from "cors"
 const app = Express()
+
+const openAi = new OpenAI({
+    // apiKey: process.env['OPENAI_API_KEY']
+    apiKey: "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"
+});
+
 app.use(cors())
 app.use(Bodyparser.urlencoded({
     extended: true,
   }))
 app.use(Bodyparser.json());
-const openAi = new OpenAI()
 app.post('/api/headData', async (req, res) => {
     try {
         // Access the 'key' property from the request body
@@ -24,10 +29,8 @@ app.post('/api/headData', async (req, res) => {
             body: JSON.stringify({key: req.body.key})
         }); // Assuming your server is running on localhost:4000
         const chatData = await chatResponse.json();
-
         // Perform any necessary operations with the received data from /api/chat
         console.log(chatData);
-
         // Respond with a success message
         res.json({finalCost: chatData.totalCost});
     } catch (error) {
@@ -72,8 +75,10 @@ app.post('/api/chat', async (req, res) => {
         body: JSON.stringify({originLocationCode: cityCodesData.sourceLocCode, destinationLocationCode: cityCodesData.destLocCode, dateDeparture: date.choices[0].message.content})
     });
     const finalData = await airportData.json()
-    console.log(finalData[0].price.grandTotal)
-      res.status(200).json({totalCost: finalData[0].price.grandTotal})
+    // console.log(finalData[0].price.grandTotal)
+    console.log(finalData.slice(0, 5));
+    // res.status(200).json({totalCost: finalData[0].price.grandTotal})
+    res.status(200).json({totalCost: finalData.slice(0, 5)});
 })
 
 app.post('/api/getCityCodes', async (req, res) => {

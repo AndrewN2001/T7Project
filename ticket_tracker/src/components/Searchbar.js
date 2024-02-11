@@ -1,8 +1,7 @@
 import React, {useState} from "react";
-import { FaPlus, FaMinus } from "react-icons/fa6";
 
 export default function FlightForm(){
-    const [data, setData] = useState(null)
+    const [data, setData] = useState("")
     const [content, setContent] = useState("")
     const [adults, setAdults] = useState(0);
     const [children, setChildren] = useState(0);
@@ -29,7 +28,7 @@ export default function FlightForm(){
     
     return(
         <div className="min-h-screen min-w-screen flex justify-center items-center">
-            <div className="w-min h-min border-2 border-gray-400 rounded-md flex justify-center items-center">
+            <div className="w-min h-min border-2 border-gray-400 rounded-md flex flex-col justify-center items-center">
                 <form className="flex flex-col gap-3 p-3" onSubmit={sendData}>
                     <textarea value = {content} onChange={e => setContent(e.target.value)} type="text" id="depart" rows="8" cols="60" className="border-2 rounded-md px-2 text-black pt-2 items-center left-4 align-text-top resize-none" placeholder="Going to:"></textarea>
                     {console.log(content)}
@@ -56,6 +55,7 @@ export default function FlightForm(){
                     </div> */}
                     <input type="submit" value="Submit" className="bg-cyan-500 hover:bg-cyan-600 p-2 rounded-md"/>
                 </form>
+                <div className={`pb-4 ${data != "" ? `visible` : `invisible`}`}>{`Total cost of the plane ticket: ${data.finalCost}`}</div>
             </div>  
         </div>
     )
