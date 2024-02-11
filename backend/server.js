@@ -50,7 +50,7 @@ app.post('/api/chat', async (req, res) => {
 
       const date = await openAi.chat.completions.create({
         messages: [{ role: "system", content: `From this string give me only the date in this format Y-MM-DD, say absolutely nothing else:
-        ${req.body.key}, write absolutely nothing else at all except for the except for the date in the format Y/MM/DD`}],
+        ${req.body.key}, write absolutely nothing else at all except for the except for the date in the format Y-MM-DD`}],
         model: "gpt-3.5-turbo",
       });
       console.log(date)
@@ -72,7 +72,7 @@ app.post('/api/chat', async (req, res) => {
         body: JSON.stringify({originLocationCode: cityCodesData.sourceLocCode, destinationLocationCode: cityCodesData.destLocCode, dateDeparture: date.choices[0].message.content})
     });
     const finalData = await airportData.json()
-    console.log(finalData)
+    console.log(finalData[0].price.grandTotal)
       res.status(200).json({success:true})
 })
 
