@@ -7,6 +7,7 @@ export default function FlightForm(){
     const [adults, setAdults] = useState(0);
     const [children, setChildren] = useState(0);
     const [selection, setSelection] = useState(false);
+
     const sendData = async (e) => {
         e.preventDefault()
         try {
@@ -25,29 +26,14 @@ export default function FlightForm(){
             console.error("Error:", error);
         }
     };
-    const TravelerSelect = () => {
-        setSelection(!selection);
-    }
-
-    const IncrementAdults = () => {
-        if (adults < 9){
-            setAdults(adults + 1);
-        }
-    }
-
-    const DecrementAdults = () => {
-        if (adults > 0){
-            setAdults(adults - 1);
-        }
-    }
-
+    
     return(
         <div className="min-h-screen min-w-screen flex justify-center items-center">
             <div className="w-min h-min border-2 border-gray-400 rounded-md flex justify-center items-center">
                 <form className="flex flex-col gap-3 p-3" onSubmit={sendData}>
-                    <textarea value = {content} onChange={e => setContent(e.target.value)} type="text" id="depart" rows="8" className="border-2 rounded-md px-2 text-black pt-2 items-center left-4 align-text-top resize-none" placeholder="Going to:"></textarea>
+                    <textarea value = {content} onChange={e => setContent(e.target.value)} type="text" id="depart" rows="8" cols="60" className="border-2 rounded-md px-2 text-black pt-2 items-center left-4 align-text-top resize-none" placeholder="Going to:"></textarea>
                     {console.log(content)}
-                    <div className="flex gap-1">
+                    {/* <div className="flex gap-1">
                         <input type="date" id="depart_date" name="depart_date" className="border-2 px-2 rounded-md" placeholder="Depart Date:"></input>
                         <input type="date" id="return_date" name="return_date" className="border-2 px-2 rounded-md" placeholder="Return Date:"></input>
                         <div className="h-fit">
@@ -67,7 +53,7 @@ export default function FlightForm(){
                                 <button type="button" className="bg-cyan-500 hover:bg-cyan-600 w-full py-1 mb-2 rounded-md" onClick={TravelerSelect}>Apply</button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <input type="submit" value="Submit" className="bg-cyan-500 hover:bg-cyan-600 p-2 rounded-md"/>
                 </form>
             </div>  
