@@ -29,7 +29,7 @@ app.post('/api/headData', async (req, res) => {
         console.log(chatData);
 
         // Respond with a success message
-        res.json({ success: true });
+        res.json({finalCost: chatData.totalCost});
     } catch (error) {
         console.error('Error handling request:', error);
         // Respond with an error message
@@ -73,7 +73,7 @@ app.post('/api/chat', async (req, res) => {
     });
     const finalData = await airportData.json()
     console.log(finalData[0].price.grandTotal)
-      res.status(200).json({success:true})
+      res.status(200).json({totalCost: finalData[0].price.grandTotal})
 })
 
 app.post('/api/getCityCodes', async (req, res) => {
