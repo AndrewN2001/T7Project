@@ -1,9 +1,15 @@
-const openAi = require("openai")
-const express = require('express');
-const app = express();
-const Amadeus = require('amadeus');
-const Openai = require('openai')
-
+import OpenAI from 'openai';
+import Express from 'express';
+const app = Express()
+const openAi = new OpenAI()
+app.get('/api/chat', async (req, res) => {
+    const completion = await openAi.chat.completions.create({
+        messages: [{ role: "system", content: "You are a helpful assistant." }],
+        model: "gpt-3.5-turbo",
+      });
+    
+      console.log(completion.choices[0]);
+})
 app.get('/api/data', (req, res) => {
     const amadeus = new Amadeus({
         clientId: 'AXkmtCwEPM2lA4RZQDZCYYXO6J9FJQ4C',
