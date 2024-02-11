@@ -25,10 +25,10 @@ export default function FlightForm(){
     };
     
     return(
-        <div className="min-h-screen min-w-screen flex flex-col justify-center items-center bg-slate-300">
+        <div className="min-h-screen min-w-screen flex flex-col justify-center items-center bg-slate-200">
             <div className="text-center pb-5">
                 <h1 className="text-7xl text-gray-800">Welcome to <span className="text-cyan-500">Runaway.</span></h1>
-                <h1 className="pt-4 text-xl text-gray-500">For whenever you want to hide from your wife (or husband)</h1>
+                <h1 className="pt-4 text-xl text-gray-500">For whenever you want to hide from your wife (or husband). We don't judge.</h1>
             </div>
 
             <div className="w-min h-min rounded-sm flex flex-col justify-center items-center bg-slate-100">
@@ -37,8 +37,15 @@ export default function FlightForm(){
                     {console.log(content)}
                     <input type="submit" value="Submit" className="bg-cyan-500 hover:bg-cyan-600 p-2 rounded-md"/>
                 </form>
-                <div className={`pb-4 ${data != "" ? `visible` : `invisible`}`}>{`Total cost of the plane ticket: ${data.finalCost}`}</div>
+                {/* <div className={`pb-4 ${data != "" ? `visible` : `invisible`}`}>{`Total cost of the plane ticket: ${data.finalCost}`}</div> */}
             </div>  
+
+            <div className="rounded-md bg-slate-100 mt-4 p-2">
+                <h1 className="bg-white p-3 rounded-md text-xl">
+                    {data != "" ? `The best price for these dates is $${data.finalCost} round trip.` : null}
+                </h1>
+            </div>
+     
         </div>
     )
 }

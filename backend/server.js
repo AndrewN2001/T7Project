@@ -5,11 +5,11 @@ import Bodyparser from "body-parser"
 import cors from "cors"
 const app = Express()
 
-// const openAi = new OpenAI({
-//     // apiKey: process.env['OPENAI_API_KEY']
-//     apiKey: ""
-// });
-const openAi = new OpenAI()
+const openAi = new OpenAI({
+    // apiKey: process.env['OPENAI_API_KEY']
+    apiKey: "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"
+});
+// const openAi = new OpenAI()
 
 app.use(cors())
 app.use(Bodyparser.urlencoded({
@@ -33,7 +33,7 @@ app.post('/api/headData', async (req, res) => {
         // Perform any necessary operations with the received data from /api/chat
         console.log(chatData);
         // Respond with a success message
-        res.json({finalCost: chatData.totalCost});
+        res.json({finalCost: chatData.totalCost, departureDate: chatData.departureDate, returnDate: chatData.returnDate});
     } catch (error) {
         console.error('Error handling request:', error);
         // Respond with an error message
@@ -85,9 +85,9 @@ app.post('/api/chat', async (req, res) => {
         body: JSON.stringify({originLocationCode: cityCodesData.sourceLocCode, destinationLocationCode: cityCodesData.destLocCode, dateDeparture: date.choices[0].message.content, returnDate: date.choices[0].message.content})
     });
     const finalData = await airportData.json()
-    // console.log(finalData[0].price.grandTotal)
-    console.log(finalData.slice(0, 5));
-    res.status(200).json({totalCost: finalData[0].price.grandTotal})
+    console.log(finalData[0].price.grandTotal)
+    // console.log(finalData[0].itineraries);
+    res.status(200).json({totalCost: finalData[0].price.grandTotal, departureDate: date.choices[0].message.content, returnDate: date2.choices[0].message.content})
     //res.status(200).json({totalCost: finalData.slice(0, 5)});
 })
 
