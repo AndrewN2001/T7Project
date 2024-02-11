@@ -37,23 +37,33 @@ app.post('/api/headData', async (req, res) => {
     }
 });
 app.post('/api/chat', async (req, res) => {
+    const currentDate = new Date()
+    const year = currentDate.getFullYear()
+    console.log(year)
     const destination = await openAi.chat.completions.create({
-        messages: [{ role: "system", content: `From this string give me only the destination, say absolutely nothing else:
-        ${req.body.key}, write absolutely nothing else at all except for the destination`}],
+        messages: [{ role: "system", content: `From this string give me only the destination city, say absolutely nothing else:
+        ${req.body.key}, write absolutely nothing else at all except for the destination city`}],
         model: "gpt-3.5-turbo",
       });
       const source = await openAi.chat.completions.create({
-        messages: [{ role: "system", content: `From this string give me only the source I'm coming from, say absolutely nothing else:
-        ${req.body.key}, write absolutely nothing else at all except for the except for the source`}],
+        messages: [{ role: "system", content: `From this string give me only the source city I'm coming from, say absolutely nothing else:
+        ${req.body.key}, write absolutely nothing else at all except for the except for the source city`}],
         model: "gpt-3.5-turbo",
       });
 
       const date = await openAi.chat.completions.create({
-        messages: [{ role: "system", content: `From this string give me only the date in this format Y-MM-DD, say absolutely nothing else:
-        ${req.body.key}, write absolutely nothing else at all except for the except for the date in the format Y-MM-DD`}],
+        messages: [{ role: "system", content: `From this string give me only the date of departure in this format Y-MM-DD, say absolutely nothing else:
+        ${req.body.key}, if the year is not given use ${currentDate.getFullYear()}, if the month is not use ${currentDate.getMonth() + 1}. If the day is between 1 and 9, write a 0 before it. Do this with the month as well. Write absolutely nothing else at all except for the except for the date of deparutre in the format Y-MM-DD`}],
         model: "gpt-3.5-turbo",
       });
+      const date2 = await openAi.chat.completions.create({
+        messages: [{ role: "system", content: `From this string give me only the return in this format Y-MM-DD, say absolutely nothing else:
+        ${req.body.key}, if the year is not given use ${currentDate.getFullYear()}, if the month is not use ${currentDate.getMonth() + 1}. If the day is between 1 and 9, write a 0 before it. Do this with the month as well. Write absolutely nothing else at all except for the except for the date of return in the format Y-MM-DD`}],
+        model: "gpt-3.5-turbo",
+      });
+      console.log(date.choices[0].message.content, date2.choices[0].message.content)
       console.log(date)
+      //console.log(destination.choices[0].message.content, source.choices[0].message.content, date.choices[0].message.content);
       const cityCodesResponse = await fetch('http://localhost:4000/api/getCityCodes', {
             method: 'POST',
             headers: {
@@ -62,14 +72,13 @@ app.post('/api/chat', async (req, res) => {
             body: JSON.stringify({source: source.choices[0].message.content, destination: destination.choices[0].message.content })
         });
     const cityCodesData = await cityCodesResponse.json();
-      //console.log(destination.choices[0].message.content, source.choices[0].message.content, date.choices[0].message.content);
-      //console.log(cityCodesData);
+      console.log(cityCodesData);
       const airportData = await fetch('http://localhost:4000/api/data', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({originLocationCode: cityCodesData.sourceLocCode, destinationLocationCode: cityCodesData.destLocCode, dateDeparture: date.choices[0].message.content})
+        body: JSON.stringify({originLocationCode: cityCodesData.sourceLocCode, destinationLocationCode: cityCodesData.destLocCode, dateDeparture: date.choices[0].message.content, returnDate: date.choices[0].message.content})
     });
     const finalData = await airportData.json()
     console.log(finalData[0].price.grandTotal)
@@ -113,6 +122,7 @@ app.post('/api/data', (req, res) => {
         originLocationCode: req.body.originLocationCode,
         destinationLocationCode: req.body.destinationLocationCode,
         departureDate: req.body.dateDeparture,
+        returnDate: req.body.returnDate,
         adults: '1'
     }).then(function(response){
         // Send the response from Amadeus API back to the client
