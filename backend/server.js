@@ -1,8 +1,28 @@
 import OpenAI from 'openai';
 import Express from 'express';
 import Amadeus from 'amadeus';
+import Bodyparser from "body-parser"
 const app = Express()
+app.use(Bodyparser.urlencoded({
+    extended: true,
+  }))
+app.use(Bodyparser.json());
 const openAi = new OpenAI()
+app.post('/api/headData', async (req, res) => {
+    try {
+        // Access the 'key' property from the request body
+        console.log(req.body.key);
+
+        // Perform any necessary operations with the received data
+
+        // Respond with a success message
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error handling request:', error);
+        // Respond with an error message
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 app.get('/api/chat', async (req, res) => {
     const completion = await openAi.chat.completions.create({
         messages: [{ role: "system", content: "You are a helpful assistant." }],
