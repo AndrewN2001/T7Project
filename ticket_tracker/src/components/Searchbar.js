@@ -10,7 +10,7 @@ export default function FlightForm(){
     const sendData = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch("http://127.0.0.1:4000", {
+            const response = await fetch("http://localhost:4000/api/headData", {
                 method: "POST",
                 body: JSON.stringify({ key: content }),
                 headers: {
@@ -18,6 +18,7 @@ export default function FlightForm(){
                 }
             });
             const responseData = await response.json(); // Extracting JSON data from response
+            console.log(responseData)
             setData(responseData); // Setting data state with the extracted data
             console.log(responseData); // Logging the data for verification
         } catch (error) {
